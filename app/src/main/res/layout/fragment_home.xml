@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.HomeFragment">
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_mantenerSesion_homeFragment"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:text="@string/mantener_sesion_activa"
+        />
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_cerrarSesion_homeFragment"
+        app:layout_constraintTop_toBottomOf="@id/button_mantenerSesion_homeFragment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:text="@string/cerrar_sesion"
+        />
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_default_homeFragment"
+        app:layout_constraintTop_toBottomOf="@id/button_cerrarSesion_homeFragment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_success_homeFragment"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        android:layout_marginHorizontal="@dimen/margin_small"
+        android:text="@string/cerrar_sesion"
+        android:textSize="@dimen/letra_pequena"
+        />
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_success_homeFragment"
+        app:layout_constraintTop_toBottomOf="@id/button_cerrarSesion_homeFragment"
+        app:layout_constraintStart_toEndOf="@id/button_default_homeFragment"
+        android:layout_marginHorizontal="@dimen/margin_small"
+        android:text="@string/success"
+        android:textSize="@dimen/letra_pequena"
+        />
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_failure_homeFragment"
+        app:layout_constraintTop_toBottomOf="@id/button_cerrarSesion_homeFragment"
+        app:layout_constraintStart_toEndOf="@id/button_success_homeFragment"
+        android:layout_marginHorizontal="@dimen/margin_small"
+        android:text="@string/failure"
+        android:textSize="@dimen/letra_pequena"
+        />
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_empty_homeFragment"
+        app:layout_constraintTop_toBottomOf="@id/button_cerrarSesion_homeFragment"
+        app:layout_constraintStart_toEndOf="@id/button_failure_homeFragment"
+        android:layout_marginHorizontal="@dimen/margin_small"
+        android:text="@string/empty"
+        android:textSize="@dimen/letra_pequena"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
