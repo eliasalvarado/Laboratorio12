@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toStartOf="@id/button_success_homeFragment"
         app:layout_constraintHorizontal_chainStyle="packed"
         android:layout_marginHorizontal="@dimen/margin_small"
-        android:text="@string/cerrar_sesion"
+        android:text="@string/default_text"
         android:textSize="@dimen/letra_pequena"
         />
 

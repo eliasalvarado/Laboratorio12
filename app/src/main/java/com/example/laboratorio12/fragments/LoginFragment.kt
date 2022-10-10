@@ -1,12 +1,12 @@
 package com.example.laboratorio12.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.datastore.core.DataStore
@@ -19,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
@@ -29,96 +30,53 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 
-class LoginFragment : Fragment() {
-    private lateinit var binding: FragmentLoginBinding
-    private val viewModel: SessionViewModel by viewModels()
-
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class LoginFragment : Fragment(R.layout.fragment_login) {
+    // Se siguió utilizando el mismo método aprendido anteriormente, ya que al tratar de utilizar
+    // binding, el programan no se tenía el comportamiento esperado
+    private lateinit var inputCorreo: TextInputLayout
+    private lateinit var inputPassword: TextInputLayout
+    private lateinit var progressBar: ProgressBar
+    private lateinit var buttonLogin: Button
+    private val viewModel: SessionViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentLoginBinding.inflate(layoutInflater)
-
-        CoroutineScope(Dispatchers.Main).launch {
-            if(getValueFromCorreo() == "alv21808@uvg.edu.gt")
-            {
-                requireView().findNavController().navigate(
-                    LoginFragmentDirections.actionLoginFragmentToHomeFragment()
-                )
-            }
-        }
+        buttonLogin = view.findViewById(R.id.button_iniciar_sesion)
+        inputCorreo = view.findViewById(R.id.input_correo)
+        inputPassword = view.findViewById(R.id.input_contrasena)
+        progressBar = view.findViewById(R.id.progress_loginFragment)
 
         setListeners()
 
     }
 
     private fun setListeners() {
-        binding.buttonIniciarSesion.setOnClickListener{
+        buttonLogin.setOnClickListener{
+            val correo = inputCorreo.editText!!.text.toString()
+            val password = inputPassword.editText!!.text.toString()
             viewModel.viewModelScope.launch {
-                binding.buttonIniciarSesion.isVisible = false
-                binding.progressSecondFragment.isVisible = true
+                buttonLogin.isVisible = false
+                progressBar.isVisible = true
                 delay(2000L)
-                binding.buttonIniciarSesion.isVisible = true
-            }
-            verificarLogin()
-
-        }
-    }
-
-    private fun verificarLogin() {
-        val correo = binding.inputCorreo.editText!!.text.toString()
-        val password = binding.inputContrasena.editText!!.text.toString()
-        if(correo == password && correo.isNotEmpty() && password.isNotEmpty() && correo == "alv21808@uvg.edu.gt")
-        {
-            CoroutineScope(Dispatchers.IO).launch {
-                saveCorreoLogin(
-                    password = password
-                )
-                CoroutineScope(Dispatchers.Main).launch {
-                    binding.inputCorreo.editText!!.text.clear()
-                    binding.inputContrasena.editText!!.text.clear()
-                    //viewModel.triggerStateFlow()
+                if(viewModel.triggerStateFlow(correo, password)){
                     requireView().findNavController().navigate(
                         LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                     )
                 }
+                else {
+                    progressBar.isVisible = false
+                    buttonLogin.isVisible = true
+                    inputCorreo.editText!!.text.clear()
+                    inputPassword.editText!!.text.clear()
+                    Toast.makeText(
+                        context,
+                        getString(R.string.ingreso_invalido),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
-        else
-        {
-            binding.inputCorreo.editText!!.text.clear()
-            binding.inputContrasena.editText!!.text.clear()
-
-            Toast.makeText(
-                context,
-                getString(R.string.ingreso_invalido),
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
-
-    private suspend fun saveCorreoLogin(password: String) {
-        val dataStoreKey = stringPreferencesKey("correo")
-        context?.dataStore?.edit { settings ->
-            settings[dataStoreKey] = password
-        }
-    }
-
-    private suspend fun getValueFromCorreo() : String? {
-        val dataStoreKey = stringPreferencesKey("correo")
-        val preferences = context?.dataStore?.data?.first()
-
-        return preferences?.get(dataStoreKey) ?: "null"
     }
 
 }

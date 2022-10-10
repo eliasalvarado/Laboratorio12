@@ -12,6 +12,7 @@
     <string name="success">Success</string>
     <string name="failure">FAILURE</string>
     <string name="empty">EMPTY</string>
+    <string name="default_text">DEFAULT</string>
     <string name="ingreso_invalido">El correo y la contraseña ingresados son incorrectos.</string>
 
 </resources>
