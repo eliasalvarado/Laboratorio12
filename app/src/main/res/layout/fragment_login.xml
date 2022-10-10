@@ -38,7 +38,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_contraseña"
+        android:id="@+id/input_contrasena"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_medium"
@@ -59,12 +59,24 @@
         android:id="@+id/button_iniciar_sesion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="@dimen/margin_button_progress"
         android:layout_marginHorizontal="20dp"
         android:text="@string/iniciar_sesion"
-        app:layout_constraintTop_toBottomOf="@id/input_contraseña"
+        app:layout_constraintTop_toBottomOf="@id/input_contrasena"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <ProgressBar
+        android:id="@+id/progress_secondFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/margin_button_progress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_contrasena"
+
         />
 
     <TextView
